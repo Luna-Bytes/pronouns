@@ -1,0 +1,33 @@
+---
+import { Heart, ThumbsUp, Laugh, UserStar, ThumbsDown, X, Minus } from "@lucide/astro";
+---
+<div class="flex flex-row flex-wrap gap-3 items-center justify-center opacity-90">
+    <div class="flex items-center gap-1 mt-0.5 mb-0.5 text-pink-400 font-bold">
+        <Heart class="fill-current shrink-0" size={16}/>
+        <p class="mt-0 mb-0">= Love</p>
+    </div>
+    <div class="flex items-center gap-1 mt-0.5 mb-0.5">
+        <ThumbsUp class="shrink-0" size={16}/>
+        <p class="mt-0 mb-0">= Like</p>
+    </div>
+    <div class="flex items-center gap-1 mt-0.5 mb-0.5">
+        <Minus class="shrink-0" size={16}/>
+        <p class="mt-0 mb-0">= don't know yet</p>
+    </div>
+    <div class="flex items-center gap-1 mt-0.5 mb-0.5 text-orange-300">
+        <Laugh class="shrink-0" size={16}/>
+        <p class="mt-0 mb-0">= only jokingly</p>
+    </div>
+    <div class="flex items-center gap-1 mt-0.5 mb-0.5 text-green-600">
+        <UserStar class="shrink-0" size={16}/>
+        <p class="mt-0 mb-0">= if we're close</p>
+    </div>
+    <div class="flex items-center gap-1 mt-0.5 mb-0.5">
+        <ThumbsDown class="shrink-0" size={16}/>
+        <p class="mt-0 mb-0">= Dislike</p>
+    </div>
+    <div class="flex items-center gap-1 mt-0.5 mb-0.5 font-bold text-red-500">
+        <X class="shrink-0" size={16}/>
+        <p class="mt-0 mb-0">= Hate</p>
+    </div>
+</div>

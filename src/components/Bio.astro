@@ -1,0 +1,29 @@
+---
+import { Earth, Clock, Cake } from '@lucide/astro';
+---
+<div class="px-5">
+    <p class="mt-0">
+        I love getting good morning and goodnight messages from people! <br/>
+        preferred languages: <br/>
+        - English <br/>
+        - German <br/>
+    </p>
+    <p class="mt-2 mb-2"><Earth class="inline"/> Europe - Germany</p>
+    <p class="mt-2 mb-2"><Cake class="inline"/> <span class="font-bold" id="age"></span> years old</p>
+    <script>
+        const birth = new Date("2008-02-17");
+        const now = new Date();
+        const age = now.getFullYear() - birth.getFullYear() - (now < new Date(now.getFullYear(), birth.getMonth(), birth.getDate()) ? 1 : 0);
+        document.getElementById("age").textContent = age.toString();
+    </script>
+    <div>
+        <p class="mt-2 mb-2"><Clock class="inline"/> It's <span class="font-bold" id="time"></span> in my timezone</p>
+        <script>
+            const update = () => {
+                document.getElementById("time").textContent = new Date().toLocaleTimeString("de-DE", { timeZone: "Europe/Berlin", hour: "2-digit", minute: "2-digit"});
+            };
+            update();
+            setInterval(update, 60000);
+        </script>
+    </div>
+</div>

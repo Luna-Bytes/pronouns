@@ -1,0 +1,18 @@
+---
+import Flags from "./Flags.astro";
+import profile from '../assets/profile_picture.png';
+---
+<div  class="flex flex-row flex-wrap justify-between p-3">
+    <div class="flex flex-wrap items-center justify-center flex-row w-max h-max gap-6">
+        <div class="rounded-full overflow-hidden h-40 w-40 not-prose">
+            <img class="w-full h-full object-cover" src={profile.src} alt="a cat sitting on a window still infront of a purple night sky" fetchpriority="high"/>
+        </div>
+        <div class="h-min">
+            <h1 class="mb-0">Lunabytes</h1>
+            <h4 class="px-5 py-2 mt-0">@_lunabytes</h4>
+        </div>
+    </div>
+    <div>
+        <Flags/>
+    </div>
+</div>

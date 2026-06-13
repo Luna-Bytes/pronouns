@@ -1,11 +1,197 @@
 ---
 import Welcome from '../components/Welcome.astro';
+import profile from '../assets/profile_picture.png';
+
+import pride from '../assets/flags/Progress Pride.png';
+import trans from '../assets/flags/Transgender.png';
+import transfem from '../assets/flags/Transfeminine.png';
+import lesbian from '../assets/flags/Lesbian.png';
+import demisexual from '../assets/flags/Demisexual.png';
+
 import Layout from '../layouts/Layout.astro';
+import "../styles/global.css";
+
+import { Earth, Clock, Cake } from '@lucide/astro';
+import { Heart, ThumbsUp, Laugh, UserStar, ThumbsDown, X, Minus } from "@lucide/astro";
+import DescriptionList from "../components/DescriptionList.astro";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+	<div class="dark:bg-gray-900 bg-gray-100 w-full h-max py-20">
+		<div class="prose dark:prose-invert mx-auto w-full max-w-none md:max-w-3xl">
+			<div  class="flex flex-row flex-wrap justify-between p-3">
+				<div class="flex flex-wrap items-center justify-center flex-row w-max h-max gap-6">
+					<div class="rounded-full overflow-hidden h-40 w-40 not-prose">
+						<img class="w-full h-full object-cover" src={profile.src} alt="a cat sitting on a window still infront of a purple night sky" fetchpriority="high"/>
+					</div>
+					<div class="h-min">
+						<h1 class="mb-0">Lunabytes</h1>
+						<h4 class="px-5 py-2 mt-0">@_lunabytes</h4>
+					</div>
+				</div>
+				<div>
+					<div class="flex items-start flex-col w-full h-max gap-0 p-5">
+						<div class="flex items-center flex-row w-full h-min gap-1">
+							<img class="h-6 object-cover mt-0 mb-0" src={pride.src}>
+							<p class="text-nowrap mt-0 mb-0 w-max">Progress Pride</p>
+						</div>
+						<div class="flex items-center flex-row w-full h-min gap-1">
+							<img class="h-6 object-cover mt-0 mb-0" src={trans.src}>
+							<p class="text-nowrap mt-0 mb-0">Transgender</p>
+						</div>
+						<div class="flex items-center flex-row w-full h-min gap-1">
+							<img class="h-6 object-cover mt-0 mb-0" src={transfem.src}>
+							<p class="text-nowrap mt-0 mb-0">Transfeminine</p>
+						</div>
+						<div class="flex items-center flex-row w-full h-min gap-1">
+							<img class="h-6 object-cover mt-0 mb-0" src={lesbian.src}>
+							<p class="text-nowrap mt-0 mb-0">Lesbian</p>
+						</div>
+						<div class="flex items-center flex-row w-full h-min gap-1">
+							<img class="h-6 object-cover mt-0 mb-0" src={demisexual.src}>
+							<p class="text-nowrap mt-0 mb-0">Demisexual</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="px-5">
+				<p class="mt-0">
+					I love getting good morning and goodnight messages from people! <br/>
+					preferred languages: <br/>
+					- English <br/>
+					- German <br/>
+				</p>
+				<p class="mt-2 mb-2"><Earth class="inline"/> Europe - Germany</p>
+				<p class="mt-2 mb-2"><Cake class="inline"/> <span class="font-bold" id="age"></span> years old</p>
+				<script>
+					const birth = new Date("2008-02-17");
+					const now = new Date();
+					const age = now.getFullYear() - birth.getFullYear() - (now < new Date(now.getFullYear(), birth.getMonth(), birth.getDate()) ? 1 : 0);
+					document.getElementById("age").textContent = age.toString();
+				</script>
+				<div>
+					<p class="mt-2 mb-2"><Clock class="inline"/> It's <span class="font-bold" id="time"></span> in my timezone</p>
+					<script>
+						const update = () => {
+							document.getElementById("time").textContent = new Date().toLocaleTimeString("de-DE", { timeZone: "Europe/Berlin", hour: "2-digit", minute: "2-digit"});
+						};
+						update();
+						setInterval(update, 1000);
+					</script>
+				</div>
+			</div>
+			<div class="flex flex-wrap flex-row w-full justify-between p-5">
+				<div>
+					<h1 class="mb-0">Names</h1>
+					<DescriptionList
+						love={["Luna", "Charlott"]}
+						like={["Kara", "Jossi", "Josephine"]}
+						idk={["Emma"]}
+					/>
+				</div>
+				<div>
+					<h1>Pronouns</h1>
+					<DescriptionList
+						love={["she/her"]}
+						like={["they/them"]}
+						hate={["he/him"]}
+					/>
+				</div>
+			</div>
+			<div class="p-5">
+				<h1 class="mb-2">Words</h1>
+				<div class="flex flex-wrap flex-row w-full justify-between text-wrap">
+					<div class="flex flex-col gap-3">
+						<div>
+							<h3 class="mb-0 mt-1">Honorifics</h3>
+							<DescriptionList
+								love={["[no honorific]","Mrs."]}
+								like={["Ms.", "Madam", "Ma'am"]}
+								jokingly={["Comrade"]}
+								hate={["Mr.", "Sir"]}
+							/>
+						</div>
+						<div>
+							<h3 class="mb-0 mt-1">Compliments</h3>
+							<DescriptionList
+								love={["pretty", "cute"]}
+								like={["hot", "beautiful"]}
+								idk={["sexy"]}
+								dislike={["handsome"]}
+							/>
+						</div>
+					</div>
+					<div>
+						<h3 class="mb-0 mt-1">Person and family <br/> descriptions</h3>
+						<DescriptionList
+							love={["girl"]}
+							like={["woman", "person", "lady", "enby", "sis", "sib"]}
+							jokingly={["pal"]}
+							dislike={["boy", "buddy", "dude"]}
+							hate={["bro", "man", "homie"]}
+						/>
+					</div>
+					<div>
+						<h3 class="mb-0 mt-1">Pet names</h3>
+						<DescriptionList
+						love={["sweety / sweetie"]}
+						like={["sweetheart", "darling", "cupcake", "cutie", "princess", "pookie", "cutie patootie", "dear"]}
+						close={["honey", "baby / babe"]}
+						jokingly={["silly", "muffin", "partner in crime"]}
+						idk={["gorgeous", "angel", "bunny", "love", "sunshine", "starlight", "twin", "kitten", "hottie", "candy"]}
+						dislike={["lamb", "handsome"]}
+						hate={["goofball", "old man"]}
+						/>
+					</div>
+					<div>
+						<h3 class="mb-0 mt-1">Relationship <br/> description</h3>
+						<DescriptionList
+							like={["friend", "enbyfriend", "partner"]}
+							close={["darling", "girlfriend", "wife", "lover"]}
+							jokingly={["kissmate", "beloved"]}
+							idk={["twin"]}
+							dislike={["joyfriend"]}
+							hate={["husband", "boyfriend", "homie"]}
+						/>
+					</div>
+				</div>
+			</div>
+			<div class="flex flex-row flex-wrap gap-3 items-center justify-center opacity-90">
+				<div class="flex items-center gap-1 mt-0.5 mb-0.5 text-pink-400 font-bold">
+					<Heart class="fill-current shrink-0" size={16}/>
+					<p class="mt-0 mb-0">= Love</p>
+				</div>
+				<div class="flex items-center gap-1 mt-0.5 mb-0.5">
+					<ThumbsUp class="shrink-0" size={16}/>
+					<p class="mt-0 mb-0">= Like</p>
+				</div>
+				<div class="flex items-center gap-1 mt-0.5 mb-0.5">
+					<Minus class="shrink-0" size={16}/>
+					<p class="mt-0 mb-0">= don't know yet</p>
+				</div>
+				<div class="flex items-center gap-1 mt-0.5 mb-0.5 text-orange-300">
+					<Laugh class="shrink-0" size={16}/>
+					<p class="mt-0 mb-0">= only jokingly</p>
+				</div>
+				<div class="flex items-center gap-1 mt-0.5 mb-0.5 text-green-600">
+					<UserStar class="shrink-0" size={16}/>
+					<p class="mt-0 mb-0">= if we're close</p>
+				</div>
+				<div class="flex items-center gap-1 mt-0.5 mb-0.5">
+					<ThumbsDown class="shrink-0" size={16}/>
+					<p class="mt-0 mb-0">= Dislike</p>
+				</div>
+				<div class="flex items-center gap-1 mt-0.5 mb-0.5 font-bold text-red-500">
+					<X class="shrink-0" size={16}/>
+					<p class="mt-0 mb-0">= Hate</p>
+				</div>
+			</div>
+			<div class="flex justify-center">
+				<a class="opacity-50" href="https://en.pronouns.page/@_lunabytes">Original Pronouns page and the main inspiration</a>
+			</div>
+		</div>
+	</div>
 </Layout>

@@ -1,0 +1,80 @@
+---
+import { Heart, ThumbsUp, Laugh, UserStar, ThumbsDown, X, Minus } from "@lucide/astro";
+
+interface Props {
+    love?: string[] | null;
+    like?: string[] | null;
+    idk?: string[] | null;
+    jokingly?: string[] | null;
+    close?: string[] | null;
+    dislike?: string[] | null;
+    hate?: string[] | null;
+}
+
+const {
+    love = null,
+    like = null,
+    idk = null,
+    jokingly = null,
+    close = null,
+    dislike = null,
+    hate = null,
+} = Astro.props;
+
+const hasAny = [love, like, idk, jokingly, close, dislike, hate].some(
+    (list) => list && list.length > 0
+);
+---
+
+{hasAny && (
+<ul>
+    {love?.map((label) => (
+            <li class="flex items-center gap-1 mt-0.5 mb-0.5 text-pink-400 font-bold">
+                <Heart class="shrink-0 fill-current" size={16} />
+                {label}
+            </li>
+    ))}
+
+    {like?.map((label) => (
+            <li class="flex items-center gap-1 mt-0.5 mb-0.5">
+                <ThumbsUp class="shrink-0" size={16} />
+                {label}
+            </li>
+    ))}
+
+    {idk?.map((label) => (
+            <li class="flex items-center gap-1 mt-0.5 mb-0.5">
+                <Minus class="shrink-0" size={16} />
+                {label}
+            </li>
+    ))}
+
+    {jokingly?.map((label) => (
+            <li class="flex items-center gap-1 mt-0.5 mb-0.5 text-orange-300">
+                <Laugh class="shrink-0" size={16} />
+                {label}
+            </li>
+    ))}
+
+    {close?.map((label) => (
+            <li class="flex items-center gap-1 mt-0.5 mb-0.5 text-green-600">
+                <UserStar class="shrink-0" size={16} />
+                {label}
+            </li>
+    ))}
+
+    {dislike?.map((label) => (
+            <li class="flex items-center gap-1 mt-0.5 mb-0.5">
+                <ThumbsDown class="shrink-0" size={16} />
+                {label}
+            </li>
+    ))}
+
+    {hate?.map((label) => (
+            <li class="flex items-center gap-1 mt-0.5 mb-0.5 font-bold text-red-500">
+                <X class="shrink-0" size={16} />
+                {label}
+            </li>
+    ))}
+</ul>
+    )}

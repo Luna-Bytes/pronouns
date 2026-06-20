@@ -1,61 +1,36 @@
 ---
 import DescriptionList from "./DescriptionList.astro";
+import {  db } from "../db";
+import { words } from "../db/schema";
+
+const allWords = await db
+    .select({
+        title: words.title,
+        love: words.love,
+        like: words.like,
+        idk: words.idk,
+        jokingly: words.jokingly,
+        close: words.close,
+        dislike: words.dislike,
+        hate: words.hate,
+    }).from(words);
 ---
-<div class="p-5">
+<div class="p-5 w-full">
     <h1 class="mb-2">Words</h1>
-    <div class="flex flex-wrap flex-row w-full justify-between text-wrap">
-        <div class="flex flex-col gap-3">
-            <div>
-                <h3 class="mb-0 mt-1">Honorifics</h3>
-                <DescriptionList
-                        love={["[no honorific]","Mrs."]}
-                        like={["Ms.", "Madam", "Ma'am"]}
-                        jokingly={["Comrade"]}
-                        hate={["Mr.", "Sir"]}
-                />
-            </div>
-            <div>
-                <h3 class="mb-0 mt-1">Compliments</h3>
-                <DescriptionList
-                        love={["pretty", "cute"]}
-                        like={["hot", "beautiful"]}
-                        idk={["sexy"]}
-                        dislike={["handsome"]}
-                />
-            </div>
-        </div>
-        <div>
-            <h3 class="mb-0 mt-1">Person and family <br/> descriptions</h3>
-            <DescriptionList
-                    love={["girl"]}
-                    like={["woman", "person", "lady", "enby", "sis", "sib"]}
-                    jokingly={["pal"]}
-                    dislike={["boy", "buddy", "dude"]}
-                    hate={["bro", "man", "homie"]}
-            />
-        </div>
-        <div>
-            <h3 class="mb-0 mt-1">Pet names</h3>
-            <DescriptionList
-                    love={["sweety / sweetie"]}
-                    like={["sweetheart", "darling", "cupcake", "cutie", "princess", "pookie", "cutie patootie", "dear"]}
-                    close={["honey", "baby / babe"]}
-                    jokingly={["silly", "muffin", "partner in crime"]}
-                    idk={["gorgeous", "angel", "bunny", "love", "sunshine", "starlight", "twin", "kitten", "hottie", "candy"]}
-                    dislike={["lamb", "handsome"]}
-                    hate={["goofball", "old man"]}
-            />
-        </div>
-        <div>
-            <h3 class="mb-0 mt-1">Relationship <br/> description</h3>
-            <DescriptionList
-                    like={["friend", "enbyfriend", "partner"]}
-                    close={["darling", "girlfriend", "wife", "lover"]}
-                    jokingly={["kissmate", "beloved"]}
-                    idk={["twin"]}
-                    dislike={["joyfriend"]}
-                    hate={["husband", "boyfriend", "homie"]}
-            />
-        </div>
+    <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 w-full">
+            {allWords.map((word) => (
+                    <div class="break-inside-avoid-column mb-4 w-full">
+                        <h3 class="mb-0 mt-1">{word.title}</h3>
+                        <DescriptionList
+                                love={word.love}
+                                like={word.like}
+                                close={word.close}
+                                jokingly={word.jokingly}
+                                idk={word.idk}
+                                dislike={word.dislike}
+                                hate={word.hate}
+                        />
+                    </div>
+            ))}
     </div>
 </div>

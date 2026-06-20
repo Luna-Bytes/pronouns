@@ -6,14 +6,16 @@ A small copy of https://pronouns.page for my personal pronouns page written in A
 
 All commands are run from the root of the project, from a terminal:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+| Command                                                              | Action                                           |
+|:---------------------------------------------------------------------| :----------------------------------------------- |
+| `pnpm install`                                                       | Installs dependencies                            |
+| `pnpm dev`                                                           | Starts local dev server at `localhost:4321`      |
+| `pnpm build`                                                         | Build your production site to `./dist/`          |
+| `pnpm preview`                                                       | Preview your build locally, before deploying     |
+| `pnpm astro ...`                                                     | Run CLI commands like `astro add`, `astro check` |
+| `pnpm astro -- --help`                                               | Get help using the Astro CLI                     |
+| `pnpm drizzle-kit generate`                                          | Generates SQL migration files in ./migrations from src/db/schema.ts                     |
+| `pnpm wrangler d1 migrations apply pronouns-db (--local / --remote)` |  Apply migrations to local/remote D1                    |
 
 ## Learn about Astro
 

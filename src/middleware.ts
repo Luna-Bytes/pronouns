@@ -1,5 +1,6 @@
 import { defineMiddleware } from "astro:middleware";
 import { jwtVerify, createRemoteJWKSet } from "jose";
+import { env } from "cloudflare:workers";
 
 const TEAM_DOMAIN = "lunabytes.cloudflareaccess.com"; // not sensitive, fine as a constant
 
@@ -12,7 +13,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
     const protectedPath = pathname === "/settings" || pathname.startsWith("/settings/api");
 
     if (protectedPath && import.meta.env.PROD) {
-        const AUD = context.locals.runtime.env.AUD;
+        // @ts-ignore
+        const AUD = env.AUD;
 
         const token = context.request.headers.get("Cf-Access-Jwt-Assertion");
         if (!token) return new Response("Unauthorized", { status: 401 });

@@ -25,3 +25,4 @@ pnpm-debug.log*
 
 # wrangler state
 .wrangler/state
+.dev.vars

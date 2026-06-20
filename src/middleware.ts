@@ -11,7 +11,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     const { pathname } = context.url;
     const protectedPath = pathname === "/settings" || pathname.startsWith("/settings/api");
 
-    if (protectedPath) {
+    if (protectedPath && import.meta.env.PROD) {
         const AUD = context.locals.runtime.env.AUD;
 
         const token = context.request.headers.get("Cf-Access-Jwt-Assertion");

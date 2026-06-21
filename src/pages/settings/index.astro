@@ -83,8 +83,9 @@ import { Star, X, Calendar } from "@lucide/astro";
                         });
                     });
                 </script>
+                <div class="max-h-[50vh] overflow-auto">
                 {currentSongs.map((song) => (
-                    <div class="flex flex-row">
+                    <div class="flex flex-row p-1">
                         <SpotifyEmbed uri={song.spotifyUri}/>
                         <div class="flex flex-col p-1">
                             <button
@@ -108,6 +109,7 @@ import { Star, X, Calendar } from "@lucide/astro";
                         </div>
                     </div>
                 ))}
+                </div>
                 <h1 class="mt-5">Favorite Music</h1>
                 <script>
                     document.querySelectorAll<HTMLButtonElement>(".btn-fav-del").forEach((btn) => {
@@ -129,8 +131,11 @@ import { Star, X, Calendar } from "@lucide/astro";
                         });
                     });
                 </script>
+                <div class="max-h-[50vh] overflow-auto">
+
+                </div>
                 {favoriteSongs.map((song) => (
-                    <div class="flex flex-row">
+                    <div class="flex flex-row p-1">
                         <SpotifyEmbed uri={song.spotifyUri}/>
                         <div class="flex flex-col p-1">
                             <button

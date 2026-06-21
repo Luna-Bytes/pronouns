@@ -1,0 +1,88 @@
+---
+import {ChevronRight, X} from "@lucide/astro";
+import SpotifyEmbed from "./SpotifyEmbed.astro";
+interface Props {
+    type: "current" | "favorite",
+    tracks: {uri:string}[],
+}
+
+const { type, tracks } = Astro.props;
+const id = "centered-dialog-" + type;
+
+function capitalizeFirst(s: string): string {
+    if (!s) return s;
+    return s[0].toUpperCase() + s.slice(1);
+}
+---
+
+<button
+        id={"open-btn-" + id}
+        data-dialog-target={id}
+        class="no-underline flex flex-row items-center hover:text-gray-500"
+>
+    see all <ChevronRight/>
+</button>
+
+<div
+        id={id + "-backdrop"}
+        class="fixed inset-0 bg-black/45 flex items-center justify-center z-50 hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={id + "-title"}
+>
+    <div
+            class="dark:bg-gray-800 bg-blue-200 w-full max-w-none md:max-w-3xl mx-auto rounded-lg shadow-lg transform transition-transform duration-150 scale-100"
+            role="document"
+            id={id}
+    >
+        <div class="flex items-center justify-between px-5 border-b">
+            <h2 class="text-lg font-semibold mt-0 mb-0 p-3">{capitalizeFirst(type)} Music</h2>
+            <button data-dialog-close><X/></button>
+        </div>
+        <div class="p-3 max-h-[80vh] overflow-auto">
+            {tracks.map(track => (
+                <div class="p-2">
+                    <SpotifyEmbed uri={track.uri}/>
+                </div>
+            ))}
+        </div>
+
+    </div>
+</div>
+
+<script type="module">
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('[data-dialog-target]').forEach((trigger) => {
+            const targetId = trigger.getAttribute('data-dialog-target');
+            const backdrop = document.getElementById(targetId + '-backdrop');
+            const dialog = document.getElementById(targetId);
+            if (!backdrop || !dialog) return;
+
+            const closeControls = backdrop.querySelectorAll('[data-dialog-close]');
+
+            function openDialog() {
+                backdrop.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+                const title = dialog.querySelector('[id$="-title"]');
+                (title ?? dialog.querySelector('button, [href], input, textarea, [tabindex]'))?.focus?.();
+            }
+
+            function closeDialog() {
+                backdrop.classList.add('hidden');
+                document.body.style.overflow = '';
+                trigger.focus();
+            }
+
+            trigger.addEventListener('click', openDialog);
+            closeControls.forEach(el => el.addEventListener('click', closeDialog));
+
+            backdrop.addEventListener('click', (e) => {
+                if (e.target === backdrop) closeDialog();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !backdrop.classList.contains('hidden')) closeDialog();
+            });
+        });
+    });
+</script>

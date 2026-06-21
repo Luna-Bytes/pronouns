@@ -16,6 +16,7 @@
     "@astrojs/cloudflare": "^13.7.0",
     "@astrojs/vue": "^6.0.1",
     "@lucide/astro": "^1.17.0",
+    "@lucide/vue": "^1.21.0",
     "@nanostores/vue": "^1.1.0",
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.4.6",

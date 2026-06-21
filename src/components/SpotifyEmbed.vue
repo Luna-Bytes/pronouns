@@ -12,7 +12,7 @@ export default defineComponent({
 
 <template>
   <iframe
-      :src="`https://open.spotify.com/embed/track/${uri?.split(':').pop()}`"
+      :src="`https://open.spotify.com/embed/${uri}`"
       width="max"
       height="152"
       allowfullscreen

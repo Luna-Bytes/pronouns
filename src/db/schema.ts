@@ -16,3 +16,26 @@ export const words = sqliteTable("words", {
     createdAt: text("createdAt").notNull().default(sql`(datetime('now'))`),
     modifiedAt: text("modifiedAt").notNull().default(sql`(datetime('now'))`),
 })
+
+export const favoriteMusic = sqliteTable("favoriteMusic", {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    title: text("title").notNull(),
+
+    artist: text("artist").default(""),
+    album: text("album").default(""),
+    spotifyId: text("spotifyId").notNull().unique(),
+    spotifyUri: text("spotifyUri").notNull(),
+    createdAt: text("createdAt").notNull().default(sql`(datetime('now'))`),
+})
+
+export const currentMusic = sqliteTable("currentMusic", {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    title: text("title").notNull(),
+
+    artist: text("artist").default(""),
+    album: text("album").default(""),
+    spotifyId: text("spotifyId").notNull().unique(),
+    spotifyUri: text("spotifyUri").notNull(),
+    createdAt: text("createdAt").notNull().default(sql`(datetime('now'))`),
+    expiresAt: text("expiresAt").notNull().default(sql`(datetime('now', '+14 days'))`),
+})

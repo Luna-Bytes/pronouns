@@ -2,7 +2,14 @@
 import SettingsLayout from "../../layouts/SettingsLayout.astro";
 export const prerender = false;
 import "../../styles/global.css";
-import SearchResults from "../../components/SearchResults.vue"
+import SearchResults from "../../components/SearchResults.vue";
+import { db } from "../../db";
+import { currentMusic, favoriteMusic } from "../../db/schema.ts";
+import SpotifyEmbed from "../../components/SpotifyEmbed.astro";
+const currentSongs = await db.select().from(currentMusic);
+const favoriteSongs = await db.select().from(favoriteMusic);
+
+import { Star, Clock, X } from "@lucide/astro";
 ---
 <SettingsLayout>
     <div class="dark:bg-gray-900 bg-blue-200 w-full h-max py-20 min-h-screen">
@@ -15,7 +22,18 @@ import SearchResults from "../../components/SearchResults.vue"
                     <h2>Search Spotify</h2>
                     <input id="q" placeholder="Search tracks..." />
                     <SearchResults client:load/>
+
                 </section>
+            </div>
+            <div>
+                <h1>Current Music</h1>
+                {currentSongs.map((song) => (
+                    <SpotifyEmbed uri={song.spotifyUri}/>
+                ))}
+                <h1>Favorite Music</h1>
+                {favoriteSongs.map((song) => (
+                    <SpotifyEmbed uri={song.spotifyUri}/>
+                ))}
             </div>
         </div>
     </div>

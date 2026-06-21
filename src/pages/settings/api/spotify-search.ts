@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import type { APIRoute } from "astro";
 import { getSpotifyToken } from "../../../lib/spotify";
 
@@ -26,7 +28,7 @@ export const GET: APIRoute = async ({ url, locals }) => {
         artist: t.artists.map((a: any) => a.name).join(", "),
         album: t.album.name,
         image: t.album.images[2]?.url ?? t.album.images[0]?.url,
-        uri: t.uri,
+        uri: t.uri.replace("spotify:", "").replace(":", "/"),
     }));
 
     return new Response(JSON.stringify(tracks), {

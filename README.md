@@ -1,7 +1,7 @@
 # Lunabytes Pronous Page
 
 A small copy of https://pronouns.page for my personal pronouns page written in Astro with tailwind css.
-View it on https://pronouns.lunabytes.dev hosted by Cloudflare pages.
+View it on https://pronouns.lunabytes.dev hosted by Cloudflare pages with D1 and Spotifys Web API.
 
 ## Commands
 

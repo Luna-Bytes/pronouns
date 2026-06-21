@@ -1,7 +1,47 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import SettingsLayout from "../../layouts/SettingsLayout.astro";
+export const prerender = false;
+import "../../styles/global.css";
+import SearchResults from "../../components/SearchResults.vue"
 ---
-- - -
-<Layout>
-    <h1>Protected Route</h1>
-</Layout>
+<SettingsLayout>
+    <div class="dark:bg-gray-900 bg-blue-200 w-full h-max py-20 min-h-screen">
+        <div class="prose dark:prose-invert mx-auto w-full max-w-none md:max-w-3xl">
+            <div>
+                <h1>Settings</h1>
+                <p>Logged in as: {Astro.locals.user?.email}</p>
+
+                <section>
+                    <h2>Search Spotify</h2>
+                    <input id="q" placeholder="Search tracks..." />
+                    <SearchResults client:load/>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        import { searchResults } from "../../stores/search";
+
+        const input = document.getElementById("q") as HTMLInputElement;
+        const results = document.getElementById("results")!;
+
+        input.addEventListener("input", debounce(async (e: Event) => {
+            const q = (e.target as HTMLInputElement).value;
+            if (!q) { results.innerHTML = ""; return; }
+
+            const res = await fetch(`/settings/api/spotify-search?q=${encodeURIComponent(q)}`);
+            const tracks = await res.json();
+
+            console.log(tracks);
+            searchResults.set(tracks);
+
+        }, 300));
+
+        function debounce(fn: Function, ms: number) {
+            let t: ReturnType<typeof setTimeout>;
+            return (...args: any[]) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+        }
+    </script>
+</SettingsLayout>

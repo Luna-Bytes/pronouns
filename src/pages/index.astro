@@ -1,6 +1,10 @@
 ---
-import SpotifyEmbed from "../components/SpotifyEmbed.astro";
 export const prerender = false;
+Astro.response.headers.set(
+	"Cache-Control",
+	"public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+);
+
 import Layout from '../layouts/Layout.astro';
 import "../styles/global.css";
 
@@ -12,10 +16,6 @@ import Bio from "../components/Bio.astro";
 import Profile from "../components/Profile.astro";
 import Music from "../components/Music.astro";
 
-Astro.response.headers.set(
-	"Cache-Control",
-	"public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
-);
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 ---

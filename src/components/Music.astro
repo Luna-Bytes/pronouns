@@ -1,17 +1,41 @@
 ---
+export const prerender = false;
+import { db } from '../db';
+import SpotifyEmbed from "./SpotifyEmbed.astro";
+import {currentMusic, favoriteMusic} from "../db/schema.ts";
+import {lt, sql} from "drizzle-orm";
 
-import SpotifyEmbed from "./SpotifyEmbed.astro";---
+await db.delete(currentMusic).where(lt(currentMusic.expiresAt, sql`(datetime('now'))`))
+const favoriteSongs = await db.select({uri: favoriteMusic.spotifyUri}).from(favoriteMusic).orderBy(sql`RANDOM()`);
+const currentSongs = await db.select({uri: currentMusic.spotifyUri}).from(currentMusic).orderBy(sql`RANDOM()`);
+
+import {ChevronRight} from "@lucide/astro";
+---
 <div class="flex flex-wrap flex-row gap-10 items-center p-3">
     <h1 class="mb-0">Music</h1>
     <p class="mt-0 mb-0">random 5 out of all</p>
 </div>
-<div class="flex flex-wrap flex-col p-3">
-    <div class="w-full">
-        <h3 class="mt-2">Current favorites</h3>
-        <SpotifyEmbed uri="track/6lt8Z886tMHpNqzOFWX8Yn"/>
+<div class="flex flex-row p-3">
+    <div class="w-1/2 p-3">
+        <div class="flex flex-row items-center gap-4">
+            <h3 class="mt-2 p-1">Current favorites</h3>
+            <a href="/current" class="no-underline flex flex-row items-center">see all <ChevronRight/></a>
+        </div>
+        {currentSongs.slice(0,5).map((song) => (
+            <div class="p-1 py-2">
+                <SpotifyEmbed uri={song.uri} />
+            </div>
+        ))}
     </div>
-    <div class="w-full">
-        <h3 class="mt-2">All-time favorites</h3>
-        <SpotifyEmbed uri="track/6lt8Z886tMHpNqzOFWX8Yn"/>
+    <div class="w-1/2 p-3">
+        <div class="flex flex-row items-center gap-4">
+            <h3 class="mt-2 p-1">All-time favorites</h3>
+            <a href="/favorites" class="no-underline flex flex-row items-center">see all <ChevronRight/></a>
+        </div>
+        {favoriteSongs.slice(0,5).map((song) => (
+            <div class="p-1 py-2">
+                <SpotifyEmbed uri={song.uri} />
+            </div>
+        ))}
     </div>
 </div>

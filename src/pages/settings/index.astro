@@ -9,30 +9,138 @@ import SpotifyEmbed from "../../components/SpotifyEmbed.astro";
 const currentSongs = await db.select().from(currentMusic);
 const favoriteSongs = await db.select().from(favoriteMusic);
 
-import { Star, Clock, X } from "@lucide/astro";
+import { Star, X, Calendar } from "@lucide/astro";
 ---
 <SettingsLayout>
     <div class="dark:bg-gray-900 bg-blue-200 w-full h-max py-20 min-h-screen">
         <div class="prose dark:prose-invert mx-auto w-full max-w-none md:max-w-3xl">
-            <div>
+            <div class="p-3">
                 <h1>Settings</h1>
                 <p>Logged in as: {Astro.locals.user?.email}</p>
 
                 <section>
                     <h2>Search Spotify</h2>
-                    <input id="q" placeholder="Search tracks..." />
+                    <input id="q" placeholder="Search tracks..." class="border-amber-50 border-2 rounded-2xl px-2" />
                     <SearchResults client:load/>
 
                 </section>
             </div>
-            <div>
-                <h1>Current Music</h1>
+            <div class="p-3">
+                <h1 class="mt-5">Current Music</h1>
+                <script>
+                    document.querySelectorAll<HTMLButtonElement>(".btn-cur-del").forEach((btn) => {
+                        btn.addEventListener("click", async () => {
+                            const id = btn.dataset.id;
+                            btn.disabled = true;
+
+                            try {
+                                const res = await fetch(`/settings/api/current/${id}`, { method: "DELETE" });
+                                const data = await res.json();
+                                console.log(data);
+                                btn.textContent = "Done!";
+                            } catch (err) {
+                                console.error(err);
+                                btn.textContent = "Error";
+                            } finally {
+                                btn.disabled = false;
+                            }
+                        });
+                    });
+                    document.querySelectorAll<HTMLButtonElement>(".btn-cur-fav").forEach((btn) => {
+                        btn.addEventListener("click", async () => {
+                            const id = btn.dataset.id;
+                            btn.disabled = true;
+
+                            try {
+                                const res = await fetch(`/settings/api/favorite/${id}`, { method: "POST" });
+                                const data = await res.json();
+                                console.log(data);
+                                btn.textContent = "Done!";
+                            } catch (err) {
+                                console.error(err);
+                                btn.textContent = "Error";
+                            } finally {
+                                btn.disabled = false;
+                            }
+                        });
+                    });
+                    document.querySelectorAll<HTMLButtonElement>(".btn-cur-ext").forEach((btn) => {
+                        btn.addEventListener("click", async () => {
+                            const id = btn.dataset.id;
+                            btn.disabled = true;
+
+                            try {
+                                const res = await fetch(`/settings/api/current/${id}`, { method: "PATCH" });
+                                const data = await res.json();
+                                console.log(data);
+                                btn.textContent = "Done!";
+                            } catch (err) {
+                                console.error(err);
+                                btn.textContent = "Error";
+                            } finally {
+                                btn.disabled = false;
+                            }
+                        });
+                    });
+                </script>
                 {currentSongs.map((song) => (
-                    <SpotifyEmbed uri={song.spotifyUri}/>
+                    <div class="flex flex-row">
+                        <SpotifyEmbed uri={song.spotifyUri}/>
+                        <div class="flex flex-col p-1">
+                            <button
+                                class="btn-cur-del"
+                                data-id={song.spotifyId}
+                            >
+                                <X class="w-8 h-8 hover:text-red-500"/>
+                            </button>
+                            <button
+                                class="btn-cur-ext"
+                                data-id={song.spotifyId}
+                            >
+                                <Calendar class="w-8 h-8 hover:text-green-400"/>
+                            </button>
+                            <button
+                                class="btn-cur-fav"
+                                data-id={song.spotifyId}
+                            >
+                                <Star class="w-8 h-8 hover:text-yellow-400"/>
+                            </button>
+                        </div>
+                    </div>
                 ))}
-                <h1>Favorite Music</h1>
+                <h1 class="mt-5">Favorite Music</h1>
+                <script>
+                    document.querySelectorAll<HTMLButtonElement>(".btn-fav-del").forEach((btn) => {
+                        btn.addEventListener("click", async () => {
+                            const id = btn.dataset.id;
+                            btn.disabled = true;
+
+                            try {
+                                const res = await fetch(`/settings/api/favorite/${id}`, { method: "DELETE" });
+                                const data = await res.json();
+                                console.log(data);
+                                btn.textContent = "Done!";
+                            } catch (err) {
+                                console.error(err);
+                                btn.textContent = "Error";
+                            } finally {
+                                btn.disabled = false;
+                            }
+                        });
+                    });
+                </script>
                 {favoriteSongs.map((song) => (
-                    <SpotifyEmbed uri={song.spotifyUri}/>
+                    <div class="flex flex-row">
+                        <SpotifyEmbed uri={song.spotifyUri}/>
+                        <div class="flex flex-col p-1">
+                            <button
+                                class="btn-fav-del"
+                                data-id={song.spotifyId}
+                            >
+                                <X class="w-8 h-8 hover:text-red-500"/>
+                            </button>
+                        </div>
+                    </div>
                 ))}
             </div>
         </div>
@@ -43,16 +151,16 @@ import { Star, Clock, X } from "@lucide/astro";
         import { searchResults } from "../../stores/search";
 
         const input = document.getElementById("q") as HTMLInputElement;
-        const results = document.getElementById("results")!;
 
         input.addEventListener("input", debounce(async (e: Event) => {
             const q = (e.target as HTMLInputElement).value;
-            if (!q) { results.innerHTML = ""; return; }
+            if(q=="" || !q){
+                searchResults.set([]);
+            }
 
             const res = await fetch(`/settings/api/spotify-search?q=${encodeURIComponent(q)}`);
             const tracks = await res.json();
 
-            console.log(tracks);
             searchResults.set(tracks);
 
         }, 300));

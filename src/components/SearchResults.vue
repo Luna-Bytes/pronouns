@@ -17,15 +17,19 @@ async function setCurrent(trackId) {
 </script>
 
 <template>
-  <div class="flex flex-col flex-wrap justify-center gap-2 max-w-2xl p-5">
+  <div class="flex flex-col flex-wrap justify-center gap-2 p-5">
     <div v-for="track in results" :key="track.id">
-      <SpotifyEmbed :uri="track.uri" class="w-full"/>
-      <button @click="favorite(track.id)" aria-label="Favorite">
-        <Star class="w-5 h-5" />
-      </button>
-      <button @click="setCurrent(track.id)" aria-label="Set as current">
-        <Clock class="w-5 h-5" />
-      </button>
+      <div class="flex flex-row gap-2">
+        <SpotifyEmbed :uri="track.uri" class="w-full"/>
+        <div class="flex flex-col h-full justify-evenly text-white">
+          <button @click="favorite(track.id)" aria-label="Favorite">
+            <Star class="w-8 h-8 hover:text-yellow-300" />
+          </button>
+          <button @click="setCurrent(track.id)" aria-label="Set as current">
+            <Clock class="w-8 h-8 hover:text-blue-200" />
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>

@@ -1,9 +1,9 @@
 ---
 export const prerender = false;
-Astro.response.headers.set(
-	"Cache-Control",
-	"public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
-);
+// Astro.response.headers.set(
+// 	"Cache-Control",
+// 	"public, max-age=0, s-maxage=3600, stale-while-revalidate=86400"
+//);
 
 import Layout from '../layouts/Layout.astro';
 import "../styles/global.css";

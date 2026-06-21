@@ -20,7 +20,10 @@ import { Star, X, Calendar } from "@lucide/astro";
 
                 <section>
                     <h2>Search Spotify</h2>
-                    <input id="q" placeholder="Search tracks..." class="border-amber-50 border-2 rounded-2xl px-2" />
+                    <div class="flex flex-row flex-wrap gap-3">
+                        <input id="q" placeholder="Search tracks..." class="border-amber-50 border-2 rounded-2xl px-2" />
+                        <input id="q2" placeholder="Playlist ID..." class="border-amber-50 border-2 rounded-2xl px-2" />
+                    </div>
                     <SearchResults client:load/>
 
                 </section>
@@ -166,6 +169,23 @@ import { Star, X, Calendar } from "@lucide/astro";
             const res = await fetch(`/settings/api/spotify-search?q=${encodeURIComponent(q)}`);
             const tracks = await res.json();
 
+            // @ts-ignore
+            searchResults.set(tracks);
+
+        }, 300));
+
+        const input2 = document.getElementById("q2") as HTMLInputElement;
+
+        input2.addEventListener("input", debounce(async (e: Event) => {
+            const q = (e.target as HTMLInputElement).value;
+            if(q=="" || !q){
+                searchResults.set([]);
+            }
+
+            const res = await fetch(`/settings/api/spotify-playlist?q=${encodeURIComponent(q)}`);
+            const tracks = await res.json();
+
+            // @ts-ignore
             searchResults.set(tracks);
 
         }, 300));
